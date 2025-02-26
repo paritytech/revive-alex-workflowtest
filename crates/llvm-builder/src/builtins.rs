@@ -1,5 +1,7 @@
 //! Utilities for compiling the LLVM compiler-rt builtins.
 
+use std::env::consts::EXE_EXTENSION;
+
 /// Static CFLAGS variable passed to the compiler building the compiler-rt builtins.
 const C_FLAGS: [&str; 6] = [
     "--target=riscv64",
@@ -44,24 +46,31 @@ fn cmake_dynamic_args(
 
     let mut clang_path = llvm_target_host.to_path_buf();
     clang_path.push("bin/clang");
+    clang_path.set_extension(EXE_EXTENSION);
 
     let mut clangxx_path = llvm_target_host.to_path_buf();
     clangxx_path.push("bin/clang++");
+    clangxx_path.set_extension(EXE_EXTENSION);
 
     let mut llvm_config_path = llvm_target_host.to_path_buf();
     llvm_config_path.push("bin/llvm-config");
+    llvm_config_path.set_extension(EXE_EXTENSION);
 
     let mut ar_path = llvm_target_host.to_path_buf();
     ar_path.push("bin/llvm-ar");
+    ar_path.set_extension(EXE_EXTENSION);
 
     let mut nm_path = llvm_target_host.to_path_buf();
     nm_path.push("bin/llvm-nm");
+    nm_path.set_extension(EXE_EXTENSION);
 
     let mut ranlib_path = llvm_target_host.to_path_buf();
     ranlib_path.push("bin/llvm-ranlib");
+    ranlib_path.set_extension(EXE_EXTENSION);
 
     let mut linker_path = llvm_target_host.to_path_buf();
     linker_path.push("bin/ld.lld");
+    linker_path.set_extension(EXE_EXTENSION);
 
     Ok([
         format!(
