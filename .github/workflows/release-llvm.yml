@@ -68,6 +68,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rust-lang/setup-rust-toolchain@v1
+        # without this it will override our rust flags
+        rustflags: ""
 
       - name: Install Dependencies
         if: ${{ matrix.host == 'linux' }}

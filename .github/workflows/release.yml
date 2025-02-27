@@ -80,6 +80,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rust-lang/setup-rust-toolchain@v1
+        # without this it will override our rust flags
+        rustflags: ""
 
       - uses: ./.github/actions/get-llvm
         with:
@@ -154,6 +156,8 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           target: wasm32-unknown-emscripten
+          # without this it will override our rust flags
+          rustflags: ""
 
       - name: Download Host LLVM
         uses: ./.github/actions/get-llvm
@@ -171,14 +175,14 @@ jobs:
 
       - name: Rename WASM LLVM
         run: |
-          mv llvm llvm-emscripen
+          mv llvm llvm-emscripten
 
       - uses: ./.github/actions/get-emsdk
 
       - name: Build
         run: |
           export LLVM_SYS_181_PREFIX=$PWD/llvm-gnu
-          export REVIVE_LLVM_TARGET_PREFIX=$PWD/llvm-emscripen
+          export REVIVE_LLVM_TARGET_PREFIX=$PWD/llvm-emscripten
           source emsdk/emsdk_env.sh
           make install-wasm
           chmod -x ./target/wasm32-unknown-emscripten/release/resolc.wasm

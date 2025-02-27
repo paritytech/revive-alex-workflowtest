@@ -18,8 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # without this it will override our rust flags
+          rustflags: ""
 
-      - name: Install solc
+      - name: Install Solc
         run: |
           mkdir -p solc
           curl -sSL --output solc/solc https://github.com/ethereum/solidity/releases/download/v0.8.28/solc-static-linux
