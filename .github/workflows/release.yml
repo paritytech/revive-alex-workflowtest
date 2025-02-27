@@ -146,7 +146,7 @@ jobs:
 
   build-wasm:
     if: ${{ needs.check-version-changed.outputs.TAG == 'new' }}
-    runs-on: parity-large
+    runs-on: ubunbtu-latest
     needs: [check-version-changed]
     steps:
       - uses: actions/checkout@v4
@@ -174,7 +174,8 @@ jobs:
         run: |
           mv llvm llvm-emscripten
 
-      - uses: ./.github/actions/get-emsdk
+      - name: Download EMSDK
+        uses: ./.github/actions/get-emsdk
 
       - name: Build
         run: |
