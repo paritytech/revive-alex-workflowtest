@@ -83,7 +83,8 @@ jobs:
         # without this it will override our rust flags
           rustflags: ""
 
-      - uses: Download LLVM
+      - name: Download LLVM
+        uses: ./.github/actions/get-llvm
         with:
           target: ${{ matrix.target }}
 
