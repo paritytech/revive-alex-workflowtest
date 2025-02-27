@@ -75,6 +75,7 @@ jobs:
         with:
           # without this it will override our rust flags
           rustflags: ""
+          cache-key: ${{ matrix.target }}
 
       - name: Install Dependencies
         if: ${{ matrix.host == 'linux' }}

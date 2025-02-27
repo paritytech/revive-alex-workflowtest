@@ -82,6 +82,7 @@ jobs:
         with:
         # without this it will override our rust flags
           rustflags: ""
+          cache-key: ${{ matrix.target }}
 
       - name: Download LLVM
         uses: ./.github/actions/get-llvm

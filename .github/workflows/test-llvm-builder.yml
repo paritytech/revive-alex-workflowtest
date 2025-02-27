@@ -27,6 +27,7 @@ jobs:
         with:
           # without this it will override our rust flags
           rustflags: ""
+          cache-key: ${{ matrix.runner }}
 
       - name: Install Dependencies
         if: matrix.runner == 'parity-large'
