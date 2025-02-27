@@ -145,7 +145,7 @@ jobs:
           retention-days: 1
 
   build-wasm:
-    if: ${{ needs.tag.outputs.TAG == 'new' }}
+    if: ${{ needs.check-version-changed.outputs.TAG == 'new' }}
     runs-on: parity-large
     needs: [check-version-changed]
     steps:
