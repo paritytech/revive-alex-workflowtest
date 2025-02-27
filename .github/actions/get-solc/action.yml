@@ -10,6 +10,7 @@ runs:
         echo "$(pwd)/solc/" >> $GITHUB_PATH
 
     - name: Figure out Solc Download URL
+      shell: bash
       run: |
         if [[ "${{ runner.os }}" == "Linux" ]]; then
           echo "SOLC_NAME=solc-static-linux" >> $GITHUB_ENV
@@ -20,9 +21,11 @@ runs:
         fi
 
     - name: Download Solc
+      shell: bash
       run: |
         curl -sSL --output solc/solc https://github.com/ethereum/solidity/releases/download/v0.8.28/${SOLC_NAME}
 
     - name: Make Solc Executable
+      shell: bash
       run: |
         chmod +x solc/solc
