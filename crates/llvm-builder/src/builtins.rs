@@ -110,7 +110,13 @@ pub fn build(
     log::info!("building compiler-rt for rv64emac");
 
     crate::utils::check_presence("cmake")?;
-    crate::utils::check_presence("ninja")?;
+
+    let generator = if cfg!(target_os = "windows") {
+        "Visual Studio 17 2022"
+    } else {
+        crate::utils::check_presence("ninja")?;
+        "Ninja"
+    };
 
     let llvm_module_compiler_rt = crate::LLVMPath::llvm_module_compiler_rt()?;
     let llvm_compiler_rt_build = crate::LLVMPath::llvm_build_compiler_rt()?;
@@ -123,7 +129,7 @@ pub fn build(
                 "-B",
                 llvm_compiler_rt_build.to_string_lossy().as_ref(),
                 "-G",
-                "Ninja",
+                "Generator",
             ])
             .args(CMAKE_STATIC_ARGS)
             .args(cmake_dynamic_args(build_type, target_env)?)
@@ -140,7 +146,17 @@ pub fn build(
         "LLVM compiler-rt building cmake",
     )?;
 
-    crate::utils::ninja(&llvm_compiler_rt_build)?;
+    crate::utils::command(
+        Command::new("cmake").args([
+            "--build",
+            llvm_build_final.to_string_lossy().as_ref(),
+            "--target",
+            "install",
+            "--config",
+            build_type.to_string().as_str(),
+        ]),
+        "Building",
+    )?;
 
     Ok(())
 }
