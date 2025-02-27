@@ -106,6 +106,7 @@ jobs:
           revive-llvm --target-env ${{ matrix.builder-arg }} build --llvm-projects lld
 
       - name: Remove Unnecessary Binaries
+        shell: bash
         run: |
           cd target-llvm/${{ matrix.builder-arg }}/target-final/bin/
           rm -f diagtool* llvm-libtool-darwin* llvm-lipo* llvm-pdbutil* llvm-dwarfdump* llvm-nm* llvm-readobj* llvm-cfi-verify* \
@@ -115,9 +116,10 @@ jobs:
           cd -
 
       - name: Package Artifact
+        shell: bash
         run: |
-          mv target-llvm/${{ matrix.builder-arg }}/target-final/ target-llvm/${{ matrix.builder-arg }}/${{ matrix.target }}/
-          tar -czf "${{ needs.create-release-draft.outputs.version }}-${{ matrix.target }}.tar.gz" -C target-llvm/${{ matrix.builder-arg }} ${{ matrix.target }}
+          mv target-llvm/${{ matrix.builder-arg }}/target-final/ llvm-${{ matrix.target }}
+          tar -czf "${{ needs.create-release-draft.outputs.version }}-${{ matrix.target }}.tar.gz" llvm-${{ matrix.target }}
 
       - name: Add Artifact to Release
         uses: softprops/action-gh-release@v2
