@@ -85,12 +85,21 @@ fn cmake_dynamic_args(
         format!("-DCMAKE_C_FLAGS='{}'", C_FLAGS.join(" ")),
         format!("-DCMAKE_ASM_FLAGS='{}'", C_FLAGS.join(" ")),
         format!("-DCMAKE_CXX_FLAGS='{}'", C_FLAGS.join(" ")),
-        format!("-DCMAKE_C_COMPILER='{}'", clang_path.to_string_lossy()),
-        format!("-DCMAKE_ASM_COMPILER='{}'", clang_path.to_string_lossy()),
-        format!("-DCMAKE_CXX_COMPILER='{}'", clangxx_path.to_string_lossy()),
-        format!("-DCMAKE_AR='{}'", ar_path.to_string_lossy()),
-        format!("-DCMAKE_NM='{}'", nm_path.to_string_lossy()),
-        format!("-DCMAKE_RANLIB='{}'", ranlib_path.to_string_lossy()),
+        format!(
+            "-DCMAKE_C_COMPILER='{}'",
+            clang_path.canonicalize()?.display()
+        ),
+        format!(
+            "-DCMAKE_ASM_COMPILER='{}'",
+            clang_path.canonicalize()?.display()
+        ),
+        format!(
+            "-DCMAKE_CXX_COMPILER='{}'",
+            clangxx_path.canonicalize()?.display()
+        ),
+        format!("-DCMAKE_AR='{}'", ar_path.canonicalize()?.display()),
+        format!("-DCMAKE_NM='{}'", nm_path.canonicalize()?.display()),
+        format!("-DCMAKE_RANLIB='{}'", ranlib_path.canonicalize()?.display()),
         format!(
             "-DLLVM_CONFIG_PATH='{}'",
             llvm_config_path.to_string_lossy()
