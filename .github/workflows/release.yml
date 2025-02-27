@@ -98,15 +98,15 @@ jobs:
       - name: Build
         if: ${{ matrix.type == 'musl' }}
         run: |
-          docker run -e HOST_UID=$(id -u) -e HOST_GID=$(id -g) -v $PWD:/opt/revive $RUST_MUSL_CROSS_IMAGE /bin/bash -c "
+          docker run -v $PWD:/opt/revive $RUST_MUSL_CROSS_IMAGE /bin/bash -c "
            cd /opt/revive
-           chown root:root .
+           chown -R root:root .
            apt update && apt upgrade -y && apt install -y pkg-config
            export LLVM_SYS_181_PREFIX=/opt/revive/llvm
            make install-bin
            mv target/${{ matrix.target }}/release/resolc resolc-${{ matrix.target }}
-           chown $HOST_UID:$HOST_GID .
            "
+          chown -R $(id -u):$(id -g)
 
       - name: Install Solc
         uses: ./.github/actions/get-solc
