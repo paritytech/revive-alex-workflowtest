@@ -98,7 +98,7 @@ jobs:
       - name: Build
         if: ${{ matrix.type == 'musl' }}
         run: |
-          docker run --user -v $PWD:/opt/revive $RUST_MUSL_CROSS_IMAGE /bin/bash -c "
+          docker run --user $(id -u):$(id -g) -v $PWD:/opt/revive $RUST_MUSL_CROSS_IMAGE /bin/bash -c "
            cd /opt/revive
            apt update && apt upgrade -y && apt install -y pkg-config
            export LLVM_SYS_181_PREFIX=/opt/revive/llvm
