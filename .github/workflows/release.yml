@@ -114,7 +114,7 @@ jobs:
 
       - name: Basic Sanity Check
         run: |
-          result=$(./resolc --bin crates/integration/contracts/flipper.sol)
+          result=$(./resolc-${{ matrix.target }} --bin crates/integration/contracts/flipper.sol)
           echo $result
           if [[ $result == *'0x50564d'* ]]; then exit 0; else exit 1; fi
 
