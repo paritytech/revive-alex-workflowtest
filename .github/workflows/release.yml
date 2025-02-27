@@ -106,7 +106,7 @@ jobs:
            make install-bin
            mv target/${{ matrix.target }}/release/resolc resolc-${{ matrix.target }}
            "
-          chown -R $(id -u):$(id -g) .
+          sudo chown -R $(id -u):$(id -g) .
 
       - name: Install Solc
         uses: ./.github/actions/get-solc
