@@ -1,6 +1,6 @@
 //! Utilities for compiling the LLVM compiler-rt builtins.
 
-use std::env::consts::EXE_EXTENSION;
+use std::{env::consts::EXE_EXTENSION, process::Command};
 
 /// Static CFLAGS variable passed to the compiler building the compiler-rt builtins.
 const C_FLAGS: [&str; 6] = [
@@ -129,7 +129,7 @@ pub fn build(
                 "-B",
                 llvm_compiler_rt_build.to_string_lossy().as_ref(),
                 "-G",
-                "Generator",
+                generator,
             ])
             .args(CMAKE_STATIC_ARGS)
             .args(cmake_dynamic_args(build_type, target_env)?)
@@ -149,7 +149,7 @@ pub fn build(
     crate::utils::command(
         Command::new("cmake").args([
             "--build",
-            llvm_build_final.to_string_lossy().as_ref(),
+            llvm_compiler_rt_build.to_string_lossy().as_ref(),
             "--target",
             "install",
             "--config",
