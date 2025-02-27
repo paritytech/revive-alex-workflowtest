@@ -131,6 +131,9 @@ jobs:
 
       - name: Create Fat Binary
         run: |
+          ls -lh
+          file resolc-aarch64-apple-darwin
+          file resolc-x86_64-apple-darwin
           lipo resolc-aarch64-apple-darwin resolc-x86_64-apple-darwin -create -output resolc
           chmod +x resolc
 
