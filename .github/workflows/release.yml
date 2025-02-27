@@ -103,7 +103,7 @@ jobs:
            apt update && apt upgrade -y && apt install -y pkg-config
            export LLVM_SYS_181_PREFIX=/opt/revive/llvm
            make install-bin
-           mv /root/.cargo/bin/resolc /opt/revive/resolc-${{ matrix.target }}
+           mv target/${{ matrix.target }}/release/resolc resolc-${{ matrix.target }}
            "
 
       - name: Install Solc
