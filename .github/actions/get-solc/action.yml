@@ -26,13 +26,13 @@ runs:
         curl -sSL --output solc/solc https://github.com/ethereum/solidity/releases/download/v0.8.28/${SOLC_NAME}
 
     - name: Make Solc Executable
-      if: ${{ runner.os }} == "Windows"
+      if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
         mv solc/solc solc/solc.exe
 
     - name: Make Solc Executable
-      if: ${{ runner.os }} != "Windows"
+      if: ${{ runner.os != 'Windows' }}
       shell: bash
       run: |
         chmod +x solc/solc
