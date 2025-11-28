@@ -112,19 +112,9 @@ runs:
           process.exit();
 
     - name: download
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
       shell: bash
       run: |
-        curl -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Accept: application/octet-stream" \
-          -v -sSLo llvm.tar.gz ${{ steps.find.outputs.result }}
-
-    - name: inspect file
-      shell: bash
-      run: |
-        file llvm.tar.gz
-        xxd llvm.tar.gz | head
+        curl -sSLo llvm.tar.gz ${{ steps.find.outputs.result }}
 
     - name: unpack
       shell: bash
