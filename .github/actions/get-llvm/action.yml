@@ -26,7 +26,7 @@ runs:
             # Extract version from branch name (e.g., "18.x" from "release/18.x")
             VERSION_PREFIX=$(echo "$BRANCH" | sed 's|release/||' | sed 's|\.x$||')
             echo "Detected LLVM version prefix from submodule branch: $VERSION_PREFIX"
-            
+
             # Special case: pin LLVM 18 to specific version 18.1.8
             if [ "$VERSION_PREFIX" = "18" ]; then
               echo "Using pinned version for LLVM 18: llvm-18.1.8"
@@ -42,7 +42,7 @@ runs:
           echo "Using explicitly provided version: ${{ inputs.version }}"
           echo "version_prefix=${{ inputs.version }}" >> $GITHUB_OUTPUT
         fi
-    
+
     - name: find asset
       id: find
       uses: actions/github-script@v7
@@ -112,9 +112,19 @@ runs:
           process.exit();
 
     - name: download
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       shell: bash
       run: |
-        curl -sSLo llvm.tar.gz ${{ steps.find.outputs.result }}
+        curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/octet-stream" \
+          -v -sSLo llvm.tar.gz ${{ steps.find.outputs.result }}
+
+    - name: inspect file
+      shell: bash
+      run: |
+        file llvm.tar.gz
+        xxd llvm.tar.gz | head
 
     - name: unpack
       shell: bash
